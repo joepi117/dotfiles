@@ -1,67 +1,49 @@
-#############################################
-# Oh My Zsh setup
-#############################################
+# ============================================
+#  ~/.zshrc
+# ============================================
+
+# --- Oh My Zsh setup ---
 export ZSH="$HOME/.oh-my-zsh"
 
-# Theme (robbyrussell is the classic default; try "agnoster" or "af-magic" too)
-ZSH_THEME="robbyrussell"
+# No built-in theme.
+ZSH_THEME=""
 
-# Plugins
-# - git: git aliases + branch info
-# - zsh-autosuggestions: ghost-text suggestions from history
-# - zsh-syntax-highlighting: colors valid/invalid commands as you type
-#   (must be last in the list)
-plugins=(
-  git
-  zsh-autosuggestions
-  zsh-syntax-highlighting
-)
+# --- Plugins ---
+plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 
-#############################################
-# History
-#############################################
-HISTFILE=~/.zsh_history
+# --- Editor ---
+export EDITOR="micro"
+export VISUAL="micro"
+alias nano="micro"      # fuck nano
+alias vim="micro"       # fuck vim too
+alias vi="micro"	# fuck vi too
+
+# --- Prompt: clean, bash-style user@host:~/path$ (with git branch indicator) ---
+# %n = username, %m = short hostname, %~ = current dir (with ~ shortening), %# = # if root else %
+# git_prompt_info comes from the oh-my-zsh "git" plugin loaded above.
+setopt PROMPT_SUBST
+
+ZSH_THEME_GIT_PROMPT_PREFIX=" %F{yellow}("
+ZSH_THEME_GIT_PROMPT_SUFFIX=")%f"
+ZSH_THEME_GIT_PROMPT_DIRTY=" %F{red}*%F{yellow}"
+ZSH_THEME_GIT_PROMPT_CLEAN=""
+
+PROMPT='%F{green}%n@%m%f:%F{blue}%~%f$(git_prompt_info)%# '
+
+# --- Quality of life ---
 HISTSIZE=10000
 SAVEHIST=10000
-setopt APPEND_HISTORY        # append instead of overwrite
-setopt SHARE_HISTORY         # share history across sessions
-setopt HIST_IGNORE_DUPS      # don't record duplicates back-to-back
-setopt HIST_IGNORE_ALL_DUPS  # remove older dupes when a new one is added
-setopt HIST_REDUCE_BLANKS    # trim extra whitespace
-
-#############################################
-# General options
-#############################################
+HISTFILE=~/.zsh_history
+setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_SPACE
 setopt AUTO_CD              # type a dir name to cd into it
-setopt CORRECT              # suggest corrections for mistyped commands
-setopt INTERACTIVE_COMMENTS # allow # comments in interactive shell
+setopt CORRECT              # basic autocorrect for commands
 
-#############################################
-# Aliases
-#############################################
+# --- Aliases ---
 alias ll="ls -lah"
 alias la="ls -A"
 alias ..="cd .."
 alias ...="cd ../.."
 alias grep="grep --color=auto"
-alias gs="git status"
-alias gc="git commit"
-alias gp="git push"
-
-#############################################
-# Environment
-#############################################
-export EDITOR="micro"
-export VISUAL="micro"
-export LANG="en_US.UTF-8"
-
-# Add common local bin dirs to PATH if they exist
-[ -d "$HOME/bin" ] && export PATH="$HOME/bin:$PATH"
-[ -d "$HOME/.local/bin" ] && export PATH="$HOME/.local/bin:$PATH"
-
-#############################################
-# Autosuggestion styling (optional tweak)
-#############################################
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=8"
