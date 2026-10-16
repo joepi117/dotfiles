@@ -47,3 +47,14 @@ alias la="ls -A"
 alias ..="cd .."
 alias ...="cd ../.."
 alias grep="grep --color=auto"
+
+# --- WSL Aliases ---
+alias npp='/mnt/c/Program\ Files/Notepad++/notepad++.exe' # Notepad++
+
+
+
+
+
+
+
+
